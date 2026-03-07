@@ -7,8 +7,17 @@ dotenv.config();
 
 const app = express();
 
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  process.env.ALLOWED_ORIGIN,          // your Vercel frontend URL
+].filter(Boolean);
+
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000'],
+  origin: (origin, cb) => {
+    if (!origin || allowedOrigins.some(o => origin.startsWith(o))) cb(null, true);
+    else cb(new Error('Not allowed by CORS'));
+  },
   credentials: true
 }));
 app.use(express.json());
