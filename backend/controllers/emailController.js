@@ -1,9 +1,7 @@
-const OpenAI = require('openai');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 const EmailReply = require('../models/EmailReply');
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY);
 
 const TONE_DESCRIPTIONS = {
   professional: 'Professional and business-appropriate',
@@ -26,8 +24,6 @@ exports.generateReply = async (req, res) => {
 
     const prompt = `You are an expert email writer. Write a ${toneDescription} email reply to the following email.
 
-Tone: ${toneDescription}
-
 Original Email:
 ${emailText}
 
@@ -41,29 +37,20 @@ Requirements:
 
 Email Reply:`;
 
-    const completion = await client.chat.completions.create({
-      model: 'gpt-3.5-turbo',
-      messages: [
-        {
-          role: 'system',
-          content: 'You are a professional email writer who creates excellent, contextually appropriate email replies.'
-        },
-        {
-          role: 'user',
-          content: prompt
-        }
-      ],
-      max_tokens: 500,
-      temperature: 0.7
-    });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
-    const reply = completion.choices[0].message.content.trim();
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const reply = response.text().trim();
 
     res.json({ reply });
   } catch (err) {
     console.error('Generate reply error:', err.message);
-    if (err.code === 'insufficient_quota') {
-      return res.status(429).json({ message: 'API quota exceeded. Please check your OpenAI plan.' });
+    if (err.message.includes('API key not valid') || err.message.includes('API_KEY_INVALID')) {
+      return res.status(401).json({ message: 'Invalid API key. Please check your Gemini API key in .env' });
+    }
+    if (err.message.includes('quota') || err.status === 429) {
+      return res.status(429).json({ message: 'API quota exceeded. Please check your Gemini plan.' });
     }
     res.status(500).json({ message: 'Failed to generate reply', error: err.message });
   }
