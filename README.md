@@ -40,6 +40,13 @@ ai-email-reply-generator/
     ├── middleware/       (auth.js — JWT guard)
     └── server.js
 ```
+## Screenshots
+
+<img width="1918" height="992" alt="image" src="https://github.com/user-attachments/assets/e0c5551f-c8fb-422f-8b05-eda12908eb2a" />
+<img width="1905" height="983" alt="image" src="https://github.com/user-attachments/assets/9a6a8522-fd99-40ac-b4ae-fcac67073b71" />
+<img width="1916" height="1015" alt="image" src="https://github.com/user-attachments/assets/71e1aef6-d702-4bf2-9884-d75c4dcd59c3" />
+<img width="1915" height="996" alt="image" src="https://github.com/user-attachments/assets/9ecdf75a-b6eb-4105-9002-0ecdfaf7670e" />
+
 
 ## Getting Started
 
