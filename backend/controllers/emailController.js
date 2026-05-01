@@ -1,7 +1,10 @@
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+const OpenAI = require('openai');
 const EmailReply = require('../models/EmailReply');
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY);
+const openai = new OpenAI({
+  apiKey: process.env.NVIDIA_API_KEY || process.env.OPENAI_API_KEY,
+  baseURL: 'https://integrate.api.nvidia.com/v1'
+});
 
 const TONE_DESCRIPTIONS = {
   professional: 'Professional and business-appropriate',
@@ -22,10 +25,7 @@ exports.generateReply = async (req, res) => {
 
     const toneDescription = TONE_DESCRIPTIONS[tone] || 'Professional';
 
-    const prompt = `You are an expert email writer. Write a ${toneDescription} email reply to the following email.
-
-Original Email:
-${emailText}
+    const systemPrompt = `You are an expert email writer. Write a ${toneDescription} email reply to the following email.
 
 Requirements:
 - Reply should be complete and ready to send
@@ -33,24 +33,28 @@ Requirements:
 - Be natural and authentic
 - Do not include subject line, just the email body
 - Start with an appropriate greeting
-- End with an appropriate closing signature
+- End with an appropriate closing signature`;
 
-Email Reply:`;
+    const completion = await openai.chat.completions.create({
+      model: 'meta/llama-3.1-70b-instruct',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: `Original Email:\n${emailText}` }
+      ],
+      temperature: 0.7,
+      max_tokens: 1024
+    });
 
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const reply = response.text().trim();
+    const reply = completion.choices[0].message.content.trim();
 
     res.json({ reply });
   } catch (err) {
     console.error('Generate reply error:', err.message);
-    if (err.message.includes('API key not valid') || err.message.includes('API_KEY_INVALID')) {
-      return res.status(401).json({ message: 'Invalid API key. Please check your Gemini API key in .env' });
+    if (err.message.includes('API key not valid') || err.message.includes('API_KEY_INVALID') || err.status === 401) {
+      return res.status(401).json({ message: 'Invalid API key. Please check your NVIDIA API key in .env' });
     }
     if (err.message.includes('quota') || err.status === 429) {
-      return res.status(429).json({ message: 'API quota exceeded. Please check your Gemini plan.' });
+      return res.status(429).json({ message: 'API quota exceeded. Please check your NVIDIA plan.' });
     }
     res.status(500).json({ message: 'Failed to generate reply', error: err.message });
   }

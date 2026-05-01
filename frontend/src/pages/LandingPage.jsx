@@ -53,7 +53,7 @@ export default function LandingPage() {
           fontSize: 12, color: '#a78bfa',
         }}>
           <Sparkles size={12} />
-          Powered by GPT-3.5 Turbo
+          Powered by NVIDIA AI
         </div>
 
         <h1 style={{ fontSize: 44, fontWeight: 700, lineHeight: 1.2, marginBottom: 16, color: 'var(--text0)' }}>
