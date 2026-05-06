@@ -40,7 +40,7 @@ ai-email-reply-generator/
     ├── middleware/       (auth.js — JWT guard)
     └── server.js
 ```
-## Deployment
+## Live Demo
 
 - **Frontend** → Vercel
   - https://email-generator-frontend-seven.vercel.app/
