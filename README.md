@@ -40,10 +40,13 @@ ai-email-reply-generator/
     ├── middleware/       (auth.js — JWT guard)
     └── server.js
 ```
-## Live Demo
+## Deployment
 
-- Frontend: https://email-generator-frontend-seven.vercel.app/
-- Backend API: https://email-generator-gauw.onrender.com
+- **Frontend** → Vercel
+  - https://email-generator-frontend-seven.vercel.app/
+- **Backend** → Render
+  - https://email-generator-gauw.onrender.com
+- **Database** → MongoDB Atlas
 
 ## Screenshots
 
@@ -90,10 +93,3 @@ App runs at `http://localhost:5173` — API proxied to `http://localhost:5000`.
 | GET | /api/history | Get user's reply history |
 | DELETE | /api/history/:id | Delete a reply |
 
-## Deployment
-
-- **Frontend** → Vercel
-  - https://email-generator-frontend-seven.vercel.app/
-- **Backend** → Render
-  - https://email-generator-gauw.onrender.com
-- **Database** → MongoDB Atlas
