@@ -48,6 +48,11 @@ ai-email-reply-generator/
 <img width="1915" height="996" alt="image" src="https://github.com/user-attachments/assets/9ecdf75a-b6eb-4105-9002-0ecdfaf7670e" />
 
 
+## Live Demo
+
+- Frontend: https://email-generator-frontend-seven.vercel.app/
+- Backend API: https://email-generator-gauw.onrender.com
+
 ## Getting Started
 
 ### Prerequisites
@@ -89,5 +94,7 @@ App runs at `http://localhost:5173` — API proxied to `http://localhost:5000`.
 ## Deployment
 
 - **Frontend** → Vercel
+  - https://email-generator-frontend-seven.vercel.app/
 - **Backend** → Render
+  - https://email-generator-gauw.onrender.com
 - **Database** → MongoDB Atlas
