@@ -2,6 +2,14 @@
 
 A full-stack web application that generates professional email responses using AI.
 
+## Live Demo
+
+- **Frontend** → Vercel
+  - https://email-generator-frontend-seven.vercel.app/
+- **Backend** → Render
+  - https://email-generator-gauw.onrender.com
+- **Database** → MongoDB Atlas
+
 ## Features
 
 - 🤖 AI-generated replies using GPT-3.5 Turbo
@@ -40,13 +48,6 @@ ai-email-reply-generator/
     ├── middleware/       (auth.js — JWT guard)
     └── server.js
 ```
-## Live Demo
-
-- **Frontend** → Vercel
-  - https://email-generator-frontend-seven.vercel.app/
-- **Backend** → Render
-  - https://email-generator-gauw.onrender.com
-- **Database** → MongoDB Atlas
 
 ## Screenshots
 
